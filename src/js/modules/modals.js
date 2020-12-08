@@ -17,9 +17,9 @@ const modals = (state) => {
         //document.body.style.overflow = "hidden";
         document.body.classList.add('modal-open'); //В Bootstrap есть специальный класс, который делает оверфлоу хидден установив класс на боди
     
-        // if (modalTimer) {
-        //     clearInterval(modalTimer);
-        // }
+        if (modalTimer) {
+            clearInterval(modalTimer);
+        }
     }
 
     function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
@@ -27,6 +27,26 @@ const modals = (state) => {
               modal = document.querySelector(modalSelector),
               close = document.querySelector(closeSelector),
               windows = document.querySelectorAll('[data-modal');
+        
+        
+        function showErrorMessage(text, divClass, elem, timeOutTime) {
+            let errorMessage = document.createElement('div');
+            errorMessage.classList.add(divClass);
+
+            console.log('error');
+            elem.parentElement.append(errorMessage);
+            errorMessage.textContent = text;
+            setTimeout(() => {
+                errorMessage.remove();
+            }, timeOutTime);
+        }
+
+        function closeAllModals(elem) {
+            elem.forEach(item => {
+                item.classList.remove('show');
+                item.classList.add('hide');
+            });
+        }
 
         trigger.forEach(item => {
             item.addEventListener('click', (e) => {
@@ -34,38 +54,22 @@ const modals = (state) => {
                     e.preventDefault();
                 }
 
-                // if (modalTimer) {
-                //     clearInterval(modalTimer);
-                // }
-
                 if (e.target.classList.contains('popup_calc_button')) {
                     if (state.width && state.height) {
-                        windows.forEach(item => {
-                            item.classList.remove('show');
-                            item.classList.add('hide');
-                        });
-
+                        closeAllModals(windows);
                         openModal(modalSelector);
                     } else {
-                        console.log('error');
+                        showErrorMessage("Введите все данные", 'status', e.target, 2000);
                     }
                 } else if (e.target.classList.contains('popup_calc_profile_button')) {
                     if (state.profile) {
-                        windows.forEach(item => {
-                            item.classList.remove('show');
-                            item.classList.add('hide');
-                        });
-
+                        closeAllModals(windows);
                         openModal(modalSelector);
                     } else {
-                        console.log('error');
+                        showErrorMessage("Введите все данные", 'status', e.target, 2000);
                     }
                 } else {
-                    windows.forEach(item => {
-                        item.classList.remove('show');
-                        item.classList.add('hide');
-                    });
-
+                    closeAllModals(windows);
                     openModal(modalSelector);
                 }
             });
@@ -93,8 +97,8 @@ const modals = (state) => {
     }
 
     function showModalByTime(selector, time) {
-        const modalTimer = setTimeout(() => {
-            openModal(selector, modalTimer);
+        const modalTimerId = setTimeout(() => {
+            openModal(selector, modalTimerId);
         }, time);
     }
 
