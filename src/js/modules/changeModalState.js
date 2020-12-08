@@ -54,7 +54,7 @@ const changeModalState = (state) => {
                         break;
                 }
 
-                console.log(state);
+                //console.log(state);
 
                 // if (elem.length > 1) { //Сделали все switch
                 //     state[prop] = i; //В обьекте state создается новое свойство и записывается значение (номер элемента на который кликнули)
