@@ -1,13 +1,15 @@
-const forms = () => {
-    const form = document.querySelectorAll('form'),
-          inputs = document.querySelectorAll('input'),
-          phoneInputs = document.querySelectorAll('input[name="user_phone"]');
+import checkNumInputs from "./checkNumInputs";
+import {closeModal} from "./modals";
+import {resetCheckbox} from "./changeModalState";
 
-    phoneInputs.forEach(item => {
-        item.addEventListener('input', () => {
-            item.value = item.value.replace(/\D/, ''); //Если ввели нечисло, то заменяем это на пустую стороку
-        });
-    });
+const forms = (state) => {
+    const form = document.querySelectorAll('form'),
+          typeOptions = document.querySelectorAll('.form-control > option'),
+          inputs = document.querySelectorAll('input'),
+          windowForm = document.querySelectorAll('.balcon_icons_img'),
+          windowType = document.querySelectorAll('#view_type');
+
+    checkNumInputs('input[name="user_phone"]');
 
     const message = {
         loading: 'Загрузка...',
@@ -41,6 +43,11 @@ const forms = () => {
             item.append(statusMessage);
 
             const formData = new FormData(item);
+            if (item.getAttribute('data-calc') == "end") {
+                for (let key in state) {
+                    formData.append(key, state[key]);
+                }
+            }
 
             postData('assets/server.php', formData)
                 .then(res => {
@@ -50,9 +57,23 @@ const forms = () => {
                 .catch(() => statusMessage.textContent = message.failure)
                 .finally(() => {
                     clearInputs();
+                    resetCheckbox('.checkbox');
+                    for (let key in state) {
+                        delete state[key];
+                    }
                     setTimeout(() => {
                         statusMessage.remove();
-                    }, 5000);
+                        closeModal('.popup_calc_end');
+                    }, 3000);
+                    windowForm.forEach((item, i) => {
+                        if (item.classList.contains('do_image_more')) {
+                            state.form = i;
+                        }
+                    });
+                    windowType.forEach(item => {
+                        state.type = item.value;
+                        console.log(state.type);
+                    });
                 });
         });
     });
