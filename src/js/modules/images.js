@@ -12,11 +12,11 @@ const images = () => {
         max-width: 100%;
     `;
 
+    imgPopup.append(bigImage);
+
     bigImage.style.cssText = `
         max-width: 90%;
     `;
-
-    imgPopup.append(bigImage);
 
     workSection.addEventListener('click', (e) => {
         e.preventDefault();
@@ -29,12 +29,14 @@ const images = () => {
             const path = target.parentNode.getAttribute('href');
             bigImage.setAttribute('src', path);
             document.body.style.overflow = 'hidden';
+            document.body.style.marginRight = `${scroll}px`;
         }
 
         if (target && target.matches('div.popup'))  {
             imgPopup.style.display = 'none';
             imgPopup.classList.remove('popup');
             document.body.style.overflow = '';
+            document.body.style.marginRight = `0px`;
         } 
     });
 };
