@@ -86,11 +86,7 @@ const modals = (state) => {
 
         modal.addEventListener('click', (e) => {
             if ((e.target === modal && closeClickOverlay) || e.target == close)  {
-                windows.forEach(item => {
-                    item.classList.remove('show');
-                    item.classList.add('hide');
-                });
-
+                closeAllModals(windows);
                 closeModal(modalSelector);
             }    
         });  

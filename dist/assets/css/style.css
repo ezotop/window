@@ -707,6 +707,10 @@ textarea:focus {
   margin-right: 10px;
 }
 
+.numbers1:last-child {
+  margin-right: 0;
+}
+
 .timer1 span{
   margin-right: 2px;
   background-color: #575757;
@@ -1462,6 +1466,10 @@ textarea:focus {
     font-size: 1.4rem;
     color: #0089cd;
     text-decoration: underline;
+  }
+
+  .timer1 {
+    width: 100%;
   }
 }
 
