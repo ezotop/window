@@ -72,7 +72,6 @@ const forms = (state) => {
                     });
                     windowType.forEach(item => {
                         state.type = item.value;
-                        console.log(state.type);
                     });
                 });
         });
